@@ -4,49 +4,63 @@ void main() {
   runApp(const MyApp());
 }
 
-// MyApp là widget gốc
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Auth Profile App',
-      home: const HomeScreen(), // màn hình đầu tiên
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-// HomeScreen là màn hình đầu tiên, có thể là Login tạm thời
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Auth Profile App')),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             const Text(
-              'Welcome to Auth Profile App',
-              style: TextStyle(fontSize: 24),
+              'You have pushed the button this many times:',
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // tạm thời in ra log
-                print('Login button pressed!');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Login pressed!')),
-                );
-              },
-              child: const Text('Login'),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        child: const Icon(Icons.add),
       ),
     );
   }
