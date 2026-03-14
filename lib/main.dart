@@ -1,9 +1,11 @@
-import 'services/language_service.dart';
+import 'package:auth_profile_app/localization/app_localizations.dart';
+import 'package:auth_profile_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'screens/splash_screen.dart';
-import 'localization/app_localizations.dart';
+import 'package:auth_profile_app/providers/languague_provider.dart';
+import 'providers/weather_provider.dart';
+
 void main() {
   runApp(const WeatherApp());
 }
@@ -15,28 +17,32 @@ class WeatherApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LanguageService()),
+        ChangeNotifierProvider(
+          create: (_) => LanguageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => WeatherProvider(),
+        ),
       ],
-      child: Consumer<LanguageService>(
-        builder: (context, langService, child) {
+      child: Consumer<LanguageProvider>(
+        builder: (context, languageProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: "Weather App",
-            locale: langService.locale,
+            locale: languageProvider.locale,
+            supportedLocales: const [
+              Locale('en'),
+              Locale('vi'),
+            ],
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('vi'),
-            ],
             home: const SplashScreen(),
           );
-        }
-      )
+        },
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'weather_screen.dart';
 import 'package:flutter/material.dart';
-import '../localization/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +14,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Delay 2 giây rồi chuyển màn hình
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
@@ -29,8 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
-
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -44,25 +40,21 @@ class _SplashScreenState extends State<SplashScreen> {
             ],
           ),
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 300,
-              left: 0,
-              right: 0,
-              child: SizedBox(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
                 height: 180,
+                width: 200,
                 child: Stack(
                   alignment: Alignment.center,
-                  clipBehavior: Clip.none,
                   children: [
-                    // ☀️ SUN (ở sau + lệch trái)
-                    Positioned(
-                      left: 80, // chỉnh lệch trái ở đây
-                      top: 10,
+                    Transform.translate(
+                      offset: const Offset(-30, -10),
                       child: Icon(
                         Icons.wb_sunny,
-                        size: 150, // kích thước mặt trời
+                        size: 150,
                         color: Colors.yellowAccent,
                         shadows: [
                           Shadow(
@@ -72,11 +64,9 @@ class _SplashScreenState extends State<SplashScreen> {
                         ],
                       ),
                     ),
-
-                    // ☁️ CLOUD (ở trước)
-                    Icon(
+                    const Icon(
                       Icons.cloud,
-                      size: 130, // kích thước mây
+                      size: 130,
                       color: Colors.white,
                       shadows: [
                         Shadow(
@@ -89,26 +79,18 @@ class _SplashScreenState extends State<SplashScreen> {
                   ],
                 ),
               ),
-            ),
-
-            /// CIRCULAR LOADING
-            Positioned(
-              top: 500,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 6,
-                    backgroundColor: Colors.white24,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
+              const SizedBox(height: 50),
+              const SizedBox(
+                width: 60,
+                height: 60,
+                child: CircularProgressIndicator(
+                  strokeWidth: 6,
+                  backgroundColor: Colors.white24,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.lightBlue),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
